@@ -3,14 +3,17 @@ const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./models/listing.js');
 const path = require('path');
-const {urlencoded} = require("express");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.engine('ejs', ejsMate);
+
+// Connect to db
 
 const MONGODB_URL = "mongodb://127.0.0.1:27017/nomadnook"
 main().then(()=>console.log('MongoDB Connected')).catch((err)=>console.log(err));
