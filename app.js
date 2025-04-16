@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-
 const ExpressError = require("./utils/ExpressError.js");
-
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+
+
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, 'views'));
@@ -24,7 +26,27 @@ const MONGODB_URL = "mongodb://127.0.0.1:27017/nomadnook"
 main().then(()=>console.log('MongoDB Connected')).catch((err)=>console.log(err));
 async function main(){
     await mongoose.connect(MONGODB_URL);
-}
+};
+
+const sessionOptions = {
+    secret: "mysupersecretcode",
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true,
+    }
+};
+app.use(session(sessionOptions));
+app.use(flash());
+app.use((req,res,next)=>{
+   res.locals.success = req.flash("success");
+   res.locals.error = req.flash("error");
+   next(); 
+});
+
+
 
 app.get("/",(req,res)=>{
     res.send("This is root path");
