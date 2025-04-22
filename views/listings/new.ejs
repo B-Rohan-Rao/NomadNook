@@ -3,20 +3,20 @@
     <div class="col-8 offset-2 mt-3">
         <br/><br/>
         <h3>Create a new listing</h3>
-        <form method="post" action="/listings" class="needs-validation" novalidate>
+        <form method="post" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-2">
                 <label for="title" class="form-label">Title</label>
                 <input name="listing[title]" placeholder="Enter title" type="text" class="form-control" required>
                 <div class="valid-feedback">Looks good!</div>
             </div>
             <div class="mb-2">
-                <label for="description" class="form-label">description</label>
+                <label for="description" class="form-label">Description</label>
                 <textarea name="listing[description]" class="form-control" required></textarea>
                 <div class="invalid-feedback">Write a short description</div>
             </div>
             <div class="mb-2">
-                <label for="image" class="form-label">image</label>
-                <input name="listing[image]" placeholder="Enter url/Links" type="text" class="form-control">
+                <label for="image" class="form-label">Upload image</label>
+                <input name="listing[image]" type="file" class="form-control">
             </div>
             <div class="row">
                 <div class="mb-2 col-md-4">
@@ -35,7 +35,7 @@
                 <input name="listing[location]" placeholder="Enter Location" type="text" class="form-control" required>
                 <div class="invalid-feedback">Country name should be valid!</div>
             </div>
-            <button class="btn btn-dark add-btn mt-4">Save</button>
+            <button class="btn btn-dark add-btn mt-4 mb-4">Save</button>
         </form>
     </div>
 </div>
