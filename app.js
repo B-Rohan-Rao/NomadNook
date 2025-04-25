@@ -43,7 +43,7 @@ app.get("/",(req,res)=>{
 
 
 const sessionOptions = {
-    secret: "mysupersecretcode",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
@@ -57,8 +57,7 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-// passport.use(new LocalStrategy(sessionOptions));
-passport.use(User.createStrategy()); // 👈 This is the correct fix
+passport.use(User.createStrategy());
 
 
 passport.serializeUser(User.serializeUser());
@@ -71,14 +70,6 @@ app.use((req,res,next)=>{
    next(); 
 });
 
-// app.get("/demoUser", async (req,res)=>{
-//     let fakeUser = new User({
-//         email:"fakeuser@gmail.com",
-//         username: "Student",
-//     });
-//     let registerUser = await User.register(fakeUser, "helloworld");
-//     res.send(registerUser);
-// });
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
